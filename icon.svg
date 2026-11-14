@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a2540"/>
+      <stop offset="100%" stop-color="#144272"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 6 L116 24 V64 C116 96 92 114 64 122 C36 114 12 96 12 64 V24 Z" fill="url(#bg)" stroke="#f5b700" stroke-width="5"/>
+  <text x="64" y="54" text-anchor="middle" fill="#f5b700" font-family="sans-serif" font-weight="900" font-size="22">VR</text>
+  <text x="64" y="78" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="800" font-size="16">MRU</text>
+  <line x1="28" y1="92" x2="96" y2="92" stroke="#f5b700" stroke-width="4" stroke-linecap="round"/>
+  <polygon points="96,86 106,92 96,98" fill="#f5b700"/>
+</svg>

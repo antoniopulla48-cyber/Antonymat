@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0a2540" />
+  <meta name="description" content="Antonymat - Simulador interactivo de Física (MRU) para 1ro BGU - Colegio Vicente Rocafuerte" />
+  <title>Antonymat | Física MRU - Colegio Vicente Rocafuerte</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <img src="icon.svg" alt="Escudo Antonymat" class="logo" />
+      <div>
+        <h1>ANTONYMAT <span class="badge">MRU</span></h1>
+        <p class="subtitle">Colegio Vicente Rocafuerte • 1ro BGU • Autor: José Pulla</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="offline-status" class="status-pill online">● Listo Offline</span>
+      <button id="btn-install" class="btn-install hidden" title="Instalar aplicación">📲 Instalar App</button>
+    </div>
+  </header>
+
+  <nav class="tab-nav" role="tablist">
+    <button class="tab-btn active" data-tab="lab">🧪 Laboratorio MRU</button>
+    <button class="tab-btn" data-tab="theory">📘 Teoría y Conversor</button>
+    <button class="tab-btn" data-tab="calc">🧮 Calculadora Paso a Paso</button>
+    <button class="tab-btn" data-tab="quiz">🏆 Desafío y Certificado</button>
+  </nav>
+
+  <main class="container">
+    <!-- MÓDULO 1: LABORATORIO INTERACTIVO -->
+    <section id="tab-lab" class="tab-panel active">
+      <div class="card">
+        <div class="card-header">
+          <h2>Simulador de Movimiento Rectilíneo Uniforme</h2>
+          <div class="vehicle-selector">
+            <label for="vehicle-select">Móvil:</label>
+            <select id="vehicle-select">
+              <option value="car">🚗 Automóvil</option>
+              <option value="metro">🚌 Metrovía Guayaquil</option>
+              <option value="runner">🏃 Atleta</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="sim-canvas" width="900" height="230"></canvas>
+        </div>
+
+        <div class="telemetry-bar">
+          <div class="tele-item">
+            <span class="tele-label">Tiempo ($t$)</span>
+            <span id="val-t" class="tele-value">0.00 s</span>
+          </div>
+          <div class="tele-item">
+            <span class="tele-label">Posición ($x$)</span>
+            <span id="val-x" class="tele-value">0.00 m</span>
+          </div>
+          <div class="tele-item">
+            <span class="tele-label">Desplazamiento ($\Delta x$)</span>
+            <span id="val-dx" class="tele-value">0.00 m</span>
+          </div>
+          <div class="tele-item">
+            <span class="tele-label">Velocidad ($v$)</span>
+            <span id="val-v" class="tele-value">10.0 m/s</span>
+          </div>
+        </div>
+
+        <div class="equation-banner" id="live-equation">
+          Ecuación horaria: <strong>x(t) = 0 m + (10 m/s) · t</strong>
+        </div>
+
+        <div class="controls-grid">
+          <div class="control-group">
+            <label for="input-x0">Posición inicial ($x_0$): <strong id="lbl-x0">0 m</strong></label>
+            <input type="range" id="input-x0" min="0" max="80" step="5" value="0" />
+          </div>
+          <div class="control-group">
+            <label for="input-v">Velocidad constante ($v$): <strong id="lbl-v">10 m/s</strong></label>
+            <input type="range" id="input-v" min="-20" max="30" step="1" value="10" />
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button id="btn-play" class="btn primary">▶ Iniciar</button>
+          <button id="btn-pause" class="btn secondary">⏸ Pausar</button>
+          <button id="btn-reset" class="btn danger">↺ Reiniciar</button>
+          <label class="checkbox-label">
+            <input type="checkbox" id="chk-stroboscope" checked />
+            Mostrar marcas cada 1 s
+          </label>
+        </div>
+
+        <div class="graphs-grid">
+          <div class="graph-box">
+            <h3>Gráfica Posición vs. Tiempo — x(t)</h3>
+            <canvas id="graph-xt" width="420" height="200"></canvas>
+          </div>
+          <div class="graph-box">
+            <h3>Gráfica Velocidad vs. Tiempo — v(t)</h3>
+            <canvas id="graph-vt" width="420" height="200"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÓDULO 2: TEORÍA Y CONVERSOR -->
+    <section id="tab-theory" class="tab-panel">
+      <div class="two-col">
+        <div class="card">
+          <h2>Fundamentos del MRU (1ro BGU)</h2>
+          <p>El <strong>Movimiento Rectilíneo Uniforme (MRU)</strong> ocurre cuando un móvil se desplaza en línea recta con <strong>velocidad constante</strong> (aceleración nula, $a = 0$).</p>
+          <ul class="feature-list">
+            <li><strong>Trayectoria recta:</strong> La dirección del movimiento no cambia.</li>
+            <li><strong>Velocidad constante:</strong> Recorre distancias iguales en intervalos de tiempo iguales.</li>
+            <li><strong>Ecuación de posición:</strong> <code>x = x₀ + v · t</code></li>
+            <li><strong>Desplazamiento:</strong> <code>Δx = x - x₀ = v · t</code></li>
+          </ul>
+
+          <div class="triangle-box">
+            <h3>Triángulo Nemotécnico (Haz clic en una variable)</h3>
+            <div class="triangle-btns">
+              <button class="tri-btn active" data-var="d">Distancia (d)</button>
+              <button class="tri-btn" data-var="v">Velocidad (v)</button>
+              <button class="tri-btn" data-var="t">Tiempo (t)</button>
+            </div>
+            <div id="triangle-output" class="formula-display">
+              <strong>d = v · t</strong> — Multiplica la velocidad por el tiempo transcurrido.
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Conversor de Unidades (SI)</h2>
+          <p>En el Sistema Internacional (SI), la velocidad se mide en <strong>m/s</strong> y la distancia en <strong>m</strong>.</p>
+          <div class="converter-box">
+            <div class="field">
+              <label for="conv-kmh">Kilómetros por hora (km/h)</label>
+              <input type="number" id="conv-kmh" value="72" step="any" />
+            </div>
+            <div class="conv-arrow">⇄ Factor: ÷ 3.6 / × 3.6</div>
+            <div class="field">
+              <label for="conv-ms">Metros por segundo (m/s)</label>
+              <input type="number" id="conv-ms" value="20" step="any" />
+            </div>
+          </div>
+          <div class="tip-box">
+            <strong>Regla rápida:</strong> Para pasar de <code>km/h</code> a <code>m/s</code> divide entre <strong>3.6</strong>. Para pasar de <code>m/s</code> a <code>km/h</code> multiplica por <strong>3.6</strong>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÓDULO 3: CALCULADORA PASO A PASO -->
+    <section id="tab-calc" class="tab-panel">
+      <div class="card">
+        <h2>Calculadora Guiada de Problemas MRU</h2>
+        <div class="calc-controls">
+          <div class="field">
+            <label for="calc-target">¿Qué deseas calcular?</label>
+            <select id="calc-target">
+              <option value="d">Distancia recorrida (d)</option>
+              <option value="v">Velocidad constante (v)</option>
+              <option value="t">Tiempo empleado (t)</option>
+            </select>
+          </div>
+
+          <div id="calc-inputs" class="calc-inputs-grid"></div>
+
+          <button id="btn-solve" class="btn primary">Resolver Paso a Paso</button>
+        </div>
+
+        <div id="calc-solution" class="solution-box">
+          Ingresa los datos y presiona <strong>Resolver Paso a Paso</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- MÓDULO 4: EVALUACIÓN Y CERTIFICADO -->
+    <section id="tab-quiz" class="tab-panel">
+      <div class="card">
+        <div class="quiz-header">
+          <div>
+            <h2>Evaluación Práctica 1ro BGU</h2>
+            <p>Resuelve ejercicios aleatorios para obtener tu certificado institucional.</p>
+          </div>
+          <div class="score-board">
+            <span>Aciertos: <strong id="score-correct">0</strong></span>
+            <span>Intentos: <strong id="score-total">0</strong></span>
+            <span>Racha: <strong id="score-streak">0</strong> 🔥</span>
+          </div>
+        </div>
+
+        <div class="student-bar">
+          <label for="student-name">Nombre del Estudiante:</label>
+          <input type="text" id="student-name" placeholder="Escribe tus nombres y apellidos..." />
+        </div>
+
+        <div class="problem-card">
+          <span class="problem-tag" id="quiz-tag">Ejercicio #1</span>
+          <p id="quiz-question" class="problem-text">Cargando ejercicio...</p>
+          <div class="answer-row">
+            <input type="number" id="quiz-answer" placeholder="Tu respuesta numérica" step="any" />
+            <span id="quiz-unit" class="unit-badge">m</span>
+            <button id="btn-check-quiz" class="btn primary">Verificar</button>
+            <button id="btn-next-quiz" class="btn secondary">Siguiente ➔</button>
+          </div>
+          <div id="quiz-feedback" class="feedback hidden"></div>
+        </div>
+
+        <div class="cert-actions">
+          <button id="btn-print-cert" class="btn accent">🖨️ Generar Certificado de Práctica</button>
+          <button id="btn-reset-progress" class="btn danger-outline">Reiniciar Progreso</button>
+        </div>
+
+        <div id="certificate-preview" class="certificate hidden">
+          <div class="cert-border">
+            <img src="icon.svg" alt="Escudo" class="cert-logo" />
+            <h3>UNIDAD EDUCATIVA FISCAL VICENTE ROCAFUERTE</h3>
+            <p class="cert-sub">Guayaquil - Ecuador • Asignatura: Física (1ro BGU)</p>
+            <h4>CERTIFICADO DE PRÁCTICA EN LABORATORIO VIRTUAL</h4>
+            <p>Se certifica que el/la estudiante:</p>
+            <div class="cert-student" id="cert-student-name">ESTUDIANTE</div>
+            <p>Ha completado satisfactoriamente la práctica interactiva de <strong>Movimiento Rectilíneo Uniforme (MRU)</strong> en la plataforma educativa <strong>Antonymat</strong>.</p>
+            <div class="cert-stats" id="cert-stats"></div>
+            <div class="cert-footer">
+              <span>Desarrollado por: Prof. José Pulla</span>
+              <span id="cert-date"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    Antonymat PWA • Colegio Vicente Rocafuerte • 1ro BGU • Creado por José Pulla • 100% Offline
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
